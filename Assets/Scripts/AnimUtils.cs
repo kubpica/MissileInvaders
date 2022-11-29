@@ -188,13 +188,13 @@ public class AnimUtils : MonoBehaviourSingleton<AnimUtils>
         croppedSpriteObj.transform.position = Change.X(croppedSpriteObj.transform.position, spriteToCrop.transform.transform.position.x - rend.sprite.pivot.x / ppuX + croppedSpriteRect.x / ppuX); //-croppedSpriteRect.width*0.01f/2;
         croppedSpriteObj.transform.position = Change.Y(croppedSpriteObj.transform.position, spriteToCrop.transform.transform.position.y - rend.sprite.pivot.y / ppuY + croppedSpriteRect.y / ppuY + croppedSpriteRect.height / ppuY);
 
-        var rotation = spriteToCrop.transform.localRotation;
+        var rotation = spriteToCrop.transform.rotation;
         var defaultRotation = new Quaternion(0, 0, 0, 1);
         if (!rotation.Equals(defaultRotation))
         {
-            spriteToCrop.transform.localRotation = defaultRotation;
+            spriteToCrop.transform.rotation = defaultRotation;
             croppedSpriteObj.transform.SetParent(spriteToCrop.transform, true);
-            spriteToCrop.transform.localRotation = rotation;
+            spriteToCrop.transform.rotation = rotation;
             croppedSpriteObj.transform.SetParent(null, true);
         }
 

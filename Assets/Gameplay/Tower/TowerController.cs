@@ -12,5 +12,10 @@ public class TowerController : MonoBehaviourExtended
             p.y = Mathf.Max(p.y, 1.48f);
             launcher.AddCommand(p);
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            launcher.DestroyCannon();
+        }
     }
 }

@@ -17,13 +17,16 @@ public class LaunchMissileCommand : Command
     private bool _isFinished;
     public override bool IsFinished => _isFinished;
 
+    private Coroutine _coroutine;
+    private bool _isMissileFired;
+
     public override void Execute()
     {
-        _launcher.StartCoroutine(execute());
+        _coroutine = _launcher.StartCoroutine(execute());
         IEnumerator execute()
         {
             yield return rotate(); // Rotate to look at the destination
-            _launcher.Get().Fire(_destination, _launcher, _crosshair); // Fire missile 
+            fire(); // Fire missile 
             yield return knockback(); // Animate knockback
             _isFinished = true;
         }
@@ -44,6 +47,12 @@ public class LaunchMissileCommand : Command
             }, time);
         }
 
+        void fire()
+        {
+            _launcher.Get().Fire(_destination, _launcher, _crosshair);
+            _isMissileFired = true;
+        }
+
         IEnumerator knockback()
         {
             var startP = _launcher.transform.position;
@@ -62,5 +71,17 @@ public class LaunchMissileCommand : Command
                 _launcher.transform.position = Vector3.Lerp(knockDest, startP, f);
             }, _launcher.knockbackTime * 0.6f);
         }
+    }
+
+    public override void Cancel()
+    {
+        if (_isMissileFired)
+            return;
+
+        if (_coroutine != null)
+        {
+            _launcher.StopCoroutine(_coroutine);
+        }
+        _launcher.crosshairSpawner.Release(_crosshair);
     }
 }

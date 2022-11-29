@@ -6,6 +6,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
 {
     public FriendlyMissile missilePrefab;
     public CrosshairSpawner crosshairSpawner;
+    public TowerStorage storage;
 
     public float rotationSpeed;
     public float knockbackDistance = 0.1f;
@@ -47,10 +48,45 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
 
     public void AddCommand(Vector3 destination)
     {
+        if (!storage.ConsumeMissile())
+            return;
+
         var crosshair = crosshairSpawner.Get();
         crosshair.transform.position = destination.Z(0);
 
         var command = new LaunchMissileCommand(destination, this, crosshair);
         _commands.Enqueue(command);
+    }
+
+    public void DestroyCannon()
+    {
+        if (storage.cannonMagazine.IsEmpty)
+        {
+            if (gameObject.activeSelf)
+            {
+                storage.ConsumeAll();
+                breakAnimation(gameObject);
+                gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            var toDestroy = storage.cannonMagazine.GetNextOne();
+            breakAnimation(toDestroy);
+            storage.Reload();
+        }
+        cancelCommands();
+
+        void breakAnimation(GameObject go) => AnimUtils.Instance.BreakTexture(go, false);
+
+        void cancelCommands()
+        {
+            _currentCommand?.Cancel();
+            while(_commands.Count > 0)
+            {
+                var command = _commands.Dequeue();
+                command.Cancel();
+            }
+        }
     }
 }
