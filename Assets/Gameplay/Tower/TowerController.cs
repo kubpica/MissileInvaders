@@ -8,8 +8,8 @@ public class TowerController : MonoBehaviourExtended
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Click");
             var p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            p.y = Mathf.Max(p.y, 1.48f);
             launcher.AddCommand(p);
         }
     }

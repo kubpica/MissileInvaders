@@ -34,6 +34,15 @@ public class AnimUtils : MonoBehaviourSingleton<AnimUtils>
         float y2 = internalPoint.y;
         float x3 = endPoint.x;
         float y3 = endPoint.y;
+        if (Mathf.Abs(x3 - x2) < 0.01f)
+        {
+            x2 += 0.01f * Mathf.Sign(x2);
+            x3 += 0.02f * Mathf.Sign(x3);
+        }   
+        if (x3 == x1)
+            x3 = x2 + 0.021f;
+        if (x2 == x1)
+            x2 = x1 + 0.01f;
 
         float denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
         float A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;

@@ -1865,6 +1865,7 @@ GameObject:
   - component: {fileID: 1684016478}
   - component: {fileID: 1684016479}
   - component: {fileID: 1684016480}
+  - component: {fileID: 1684016481}
   m_Layer: 0
   m_Name: MissileLauncher
   m_TagString: Untagged
@@ -1952,10 +1953,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missilePrefab: {fileID: 6689004956922629890, guid: cdcddb407529ecb46b835a9b5e4a10d6, type: 3}
+  crosshairSpawner: {fileID: 1684016481}
   rotationSpeed: 100
   knockbackDistance: 0.1
   knockbackTime: 0.5
   missileSpeed: 10
+--- !u!114 &1684016481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684016477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4585e2c81b09d9842b709eb7ee27d799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshairPrefab: {fileID: 6092138762691264124, guid: 873031c9a2382e4439f824defb540f8a, type: 3}
 --- !u!1 &1724798334
 GameObject:
   m_ObjectHideFlags: 0

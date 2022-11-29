@@ -5,11 +5,13 @@ public class LaunchMissileCommand : Command
 {
     private readonly Vector2 _destination;
     private readonly MissileLauncher _launcher;
+    private readonly Crosshair _crosshair;
 
-    public LaunchMissileCommand(Vector2 destination, MissileLauncher launcher)
+    public LaunchMissileCommand(Vector2 destination, MissileLauncher launcher, Crosshair crosshair)
     {
         _destination = destination;
         _launcher = launcher;
+        _crosshair = crosshair;
     }
 
     private bool _isFinished;
@@ -21,7 +23,7 @@ public class LaunchMissileCommand : Command
         IEnumerator execute()
         {
             yield return rotate(); // Rotate to look at the destination
-            _launcher.Get().Fire(_destination, _launcher); // Fire missile 
+            _launcher.Get().Fire(_destination, _launcher, _crosshair); // Fire missile 
             yield return knockback(); // Animate knockback
             _isFinished = true;
         }
@@ -35,6 +37,7 @@ public class LaunchMissileCommand : Command
             targetDir.y *= 1.3f;
             targetDir = targetDir.normalized;
             var time = Vector2.Angle(startDir, targetDir)/ _launcher.rotationSpeed;
+            _crosshair.Colorize(Color.red, time);
             yield return AnimUtils.Animate(f =>
             {
                 _launcher.transform.up = Vector2.Lerp(startDir, targetDir, f).normalized;

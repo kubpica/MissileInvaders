@@ -5,6 +5,8 @@ using UnityEngine;
 public class MissileLauncher : PoolerBase<FriendlyMissile>
 {
     public FriendlyMissile missilePrefab;
+    public CrosshairSpawner crosshairSpawner;
+
     public float rotationSpeed;
     public float knockbackDistance = 0.1f;
     public float knockbackTime = 0.5f;
@@ -45,7 +47,10 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
 
     public void AddCommand(Vector3 destination)
     {
-        var command = new LaunchMissileCommand(destination, this);
+        var crosshair = crosshairSpawner.Get();
+        crosshair.transform.position = destination.Z(0);
+
+        var command = new LaunchMissileCommand(destination, this, crosshair);
         _commands.Enqueue(command);
     }
 }

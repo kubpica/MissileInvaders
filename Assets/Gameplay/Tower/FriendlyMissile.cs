@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FriendlyMissile : MonoBehaviour
 {
-    public void Fire(Vector3 destination, MissileLauncher launcher)
+    public void Fire(Vector3 destination, MissileLauncher launcher, Crosshair crosshair)
     {
         StartCoroutine(fire());
         IEnumerator fire()
@@ -24,11 +24,13 @@ public class FriendlyMissile : MonoBehaviour
             Debug.DrawLine(launcher.transform.position.Z(100), (forwardP+transform.up).Z(100), Color.red, 2, true);
 
             var time = (targetV.magnitude+1) / launcher.missileSpeed;
+            crosshair.Colorize(Color.clear, time);
             yield return AnimUtils.AnimateAlongParabola(gameObject, internalV, targetV, time);
 
             // BOOM!
             AnimUtils.Instance.BreakTexture(gameObject, false);
             launcher.Release(this);
+            launcher.crosshairSpawner.Release(crosshair);
 
             //TODO Explosion
         }
