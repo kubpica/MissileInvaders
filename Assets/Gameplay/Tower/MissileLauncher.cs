@@ -76,18 +76,23 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
             breakAnimation(toDestroy);
             storage.Reload();
         }
-        cancelCommands();
+        CancelCommands();
 
         void breakAnimation(GameObject go) => AnimUtils.Instance.BreakTexture(go, false);
+    }
 
-        void cancelCommands()
+    public void RestoreCannon()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void CancelCommands()
+    {
+        _currentCommand?.Cancel();
+        while (_commands.Count > 0)
         {
-            _currentCommand?.Cancel();
-            while(_commands.Count > 0)
-            {
-                var command = _commands.Dequeue();
-                command.Cancel();
-            }
+            var command = _commands.Dequeue();
+            command.Cancel();
         }
     }
 
