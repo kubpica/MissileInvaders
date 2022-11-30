@@ -83,5 +83,6 @@ public class LaunchMissileCommand : Command
             _launcher.StopCoroutine(_coroutine);
         }
         _launcher.crosshairSpawner.Release(_crosshair);
+        _isFinished = true;
     }
 }

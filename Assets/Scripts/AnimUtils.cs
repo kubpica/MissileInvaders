@@ -84,6 +84,12 @@ public class AnimUtils : MonoBehaviourSingleton<AnimUtils>
         yield return AnimUtils.Animate(t => action(Color.Lerp(oldColor, newColor, t)), time);
     }
 
+    public static IEnumerator ColorizeSpriteRenderer(SpriteRenderer sr, Color newColor, float time)
+    {
+        Color startColor = sr.color;
+        yield return ColorLerp(c => sr.color = c, startColor, newColor, time);
+    }
+
     /// <summary>
     /// Crumbles passed sprite.
     /// </summary>
