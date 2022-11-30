@@ -55,5 +55,10 @@ public class Explosion : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         //TODO Explode enemy missile
+        var missile = other.GetComponent<EnemyMissile>();
+        if (missile != null)
+        {
+            missile.Explode(_size * 1.2f);
+        }
     }
 }
