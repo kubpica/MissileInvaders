@@ -11,6 +11,7 @@ public class GameStateManager : MonoBehaviour
     public TowerStorage towerStorage;
     public MissileLauncher launcher;
     public BuildingsManager buildings;
+    public ScoreManager score;
 
     public enum GameState
     {
@@ -73,7 +74,8 @@ public class GameStateManager : MonoBehaviour
             {
                 while (towerStorage.ConsumeMissile())
                 {
-                    //TODO Add points per saved missile
+                    // Add points per saved missile
+                    score.Add(5);
                     yield return new WaitForSeconds(0.15f);
                 }
 
@@ -81,10 +83,11 @@ public class GameStateManager : MonoBehaviour
                 var undamaged = buildings.GetUndamaged();
                 if (undamaged.Count > 0)
                 {
-                    //TODO Add points per saved building
+                    // Add points per saved building
                     foreach (var b in undamaged)
                     {
                         b.Hide();
+                        score.Add(50);
                         yield return new WaitForSeconds(0.4f);
                     }
 

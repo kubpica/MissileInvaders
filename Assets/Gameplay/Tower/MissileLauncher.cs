@@ -62,7 +62,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
     {
         if (storage.cannonMagazine.IsEmpty)
         {
-            ExplosionsManager.Instance.Spawn(transform.position, 1);
+            ExplosionsManager.Instance.Spawn(transform.position, 1, false);
             if (gameObject.activeSelf)
             {
                 storage.ConsumeAll();
@@ -101,7 +101,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
         var missile = other.GetComponent<EnemyMissile>();
         if (missile != null)
         {
-            missile.Explode(1);
+            missile.Explode(1, false);
             DestroyCannon();
         }
     }

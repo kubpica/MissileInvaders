@@ -9,7 +9,7 @@ public class BuildingCollider : MonoBehaviourExtended
         var missile = other.GetComponent<EnemyMissile>();
         if (missile != null)
         {
-            missile.Explode(1);
+            missile.Explode(1, false);
             building.Explode();
         }
     }

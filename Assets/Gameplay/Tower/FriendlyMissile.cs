@@ -28,7 +28,7 @@ public class FriendlyMissile : MonoBehaviour
             yield return AnimUtils.AnimateAlongParabola(gameObject, internalV, targetV, time);
 
             // BOOM!
-            ExplosionsManager.Instance.Spawn(transform.position, 1);
+            ExplosionsManager.Instance.Spawn(transform.position, 1, true);
             AnimUtils.Instance.BreakTexture(gameObject, false);
             launcher.Release(this);
             launcher.crosshairSpawner.Release(crosshair);

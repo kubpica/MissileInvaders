@@ -21,7 +21,7 @@ public abstract class EnemyMissile : MonoBehaviour
         _isExploding = false;
     }
 
-    public void Explode(float explosionSize)
+    public void Explode(float explosionSize, bool canScore)
     {
         if (_isExploding)
             return;
@@ -33,7 +33,11 @@ public abstract class EnemyMissile : MonoBehaviour
         anim.BreakTexture(gameObject, false);
 
         // Spawn explosion
-        ExplosionsManager.Instance.Spawn(transform.position, explosionSize * explosionMultiplier);
+        ExplosionsManager.Instance.Spawn(transform.position, explosionSize * explosionMultiplier, canScore);
+
+        // Score points
+        if (canScore)
+            ScoreManager.Instance.Add(points);
 
         // Release to the pool
         _isFired = false;
@@ -51,6 +55,6 @@ public abstract class EnemyMissile : MonoBehaviour
 
         // Hit gound
         if (p.y < -0.3f)
-            Explode(0.5f);
+            Explode(0.5f, false);
     }
 }

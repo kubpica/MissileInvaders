@@ -10,7 +10,6 @@ public class ScreenSizeManager : MonoBehaviour
         if (windowSize.x != Screen.width || windowSize.y != Screen.height)
         {
             windowSize = new Vector2(Screen.width, Screen.height);
-            Debug.Log("SS: " + Screen.width + "x" + Screen.height);
             sizeChanged();
         }
     }

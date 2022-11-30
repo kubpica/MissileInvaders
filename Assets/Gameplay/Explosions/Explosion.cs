@@ -6,8 +6,9 @@ public class Explosion : MonoBehaviour
     private const float TIME = 1;
 
     private float _size;
+    private bool _canScore;
 
-    public void Fire(Vector3 position, float size)
+    public void Fire(Vector3 position, float size, bool canScore)
     {
         StartCoroutine(fire());
         IEnumerator fire()
@@ -18,6 +19,8 @@ public class Explosion : MonoBehaviour
             
             _size = size;
             var targetSize = Vector3.one * size;
+
+            _canScore = canScore;
 
             // Animate resizing & color
             yield return resizeAndColor(0.6f, Color.red, 0.25f);
@@ -58,7 +61,7 @@ public class Explosion : MonoBehaviour
         var missile = other.GetComponent<EnemyMissile>();
         if (missile != null)
         {
-            missile.Explode(_size * 1.2f);
+            missile.Explode(_size * 1.2f, _canScore);
         }
     }
 }

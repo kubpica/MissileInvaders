@@ -5,10 +5,10 @@ public class ExplosionsManager : MonoBehaviourSingleton<ExplosionsManager>
 {
     [OwnComponent] private ExplosionSpawner pool;
 
-    public Explosion Spawn(Vector3 position, float size)
+    public Explosion Spawn(Vector3 position, float size, bool canScore)
     {
         var explosion = pool.Get();
-        explosion.Fire(position, size);
+        explosion.Fire(position, size, canScore);
         return explosion;
     }
 
