@@ -25,6 +25,6 @@ public class Building : MonoBehaviour
         IsDestroyed = true;
 
         // Spawn explosion
-        ExplosionsManager.Instance.Spawn(transform.position, 1);
+        ExplosionsManager.Instance.Spawn(transform.position, 1.2f);
     }
 }

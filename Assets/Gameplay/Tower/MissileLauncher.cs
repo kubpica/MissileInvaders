@@ -62,6 +62,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
     {
         if (storage.cannonMagazine.IsEmpty)
         {
+            ExplosionsManager.Instance.Spawn(transform.position, 1);
             if (gameObject.activeSelf)
             {
                 storage.ConsumeAll();
@@ -87,6 +88,16 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
                 var command = _commands.Dequeue();
                 command.Cancel();
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var missile = other.GetComponent<EnemyMissile>();
+        if (missile != null)
+        {
+            missile.Explode(1);
+            DestroyCannon();
         }
     }
 }
