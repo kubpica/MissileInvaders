@@ -10,6 +10,7 @@ public class GameStateManager : MonoBehaviour
     public BackgroundColorManager backgroundColor;
     public TowerStorage towerStorage;
     public MissileLauncher launcher;
+    public BuildingsManager buildings;
 
     public enum GameState
     {
@@ -57,6 +58,8 @@ public class GameStateManager : MonoBehaviour
                     break;
                 case GameState.GameOver:
                     backgroundColor.GameOver();
+                    middleText.SetText("GAME OVER");
+                    middleText.Show();
                     break;
             }
 
@@ -68,18 +71,32 @@ public class GameStateManager : MonoBehaviour
 
             IEnumerator endLevel()
             {
-                //TODO
                 while (towerStorage.ConsumeMissile())
                 {
-                    yield return new WaitForSeconds(0.15f);
                     //TODO Add points per saved missile
+                    yield return new WaitForSeconds(0.15f);
                 }
-                //TODO Add points per saved building
 
-                //TODO Check if any building saved
-                towerStorage.RestoreAll();
-                launcher.RestoreCannon();
-                CurrentState = GameState.BeforeLevel;
+                // Check if any building saved
+                var undamaged = buildings.GetUndamaged();
+                if (undamaged.Count > 0)
+                {
+                    //TODO Add points per saved building
+                    foreach (var b in undamaged)
+                    {
+                        b.Hide();
+                        yield return new WaitForSeconds(0.4f);
+                    }
+
+                    towerStorage.RestoreAll();
+                    launcher.RestoreCannon();
+                    undamaged.ForEach(b => b.Show());
+                    CurrentState = GameState.BeforeLevel;
+                }
+                else
+                {
+                    CurrentState = GameState.GameOver;
+                }
             }
         }
     }
