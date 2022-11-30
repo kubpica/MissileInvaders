@@ -54,7 +54,7 @@ public class Explosion : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //TODO Explode enemy missile
+        // Explode enemy missile
         var missile = other.GetComponent<EnemyMissile>();
         if (missile != null)
         {
