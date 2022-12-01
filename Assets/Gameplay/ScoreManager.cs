@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviourSingleton<ScoreManager>
@@ -6,10 +7,22 @@ public class ScoreManager : MonoBehaviourSingleton<ScoreManager>
     public LevelManager levelManager;
 
     public int Points { get; private set; }
+    public int NextRebuildAt { get; set; } = 10000;
 
     public void Add(int points)
     {
         Points += points * levelManager.CurrentLevel;
         textMesh.text = Points.ToString();
+    }
+
+    public void Colorize(Color color, float time)
+    {
+        StartCoroutine(colorize(color, time));
+        IEnumerator colorize(Color color, float time)
+        {
+            var oldColor = textMesh.color;
+            yield return AnimUtils.ColorLerp
+                (c => textMesh.color = c, oldColor, color, time);
+        }
     }
 }

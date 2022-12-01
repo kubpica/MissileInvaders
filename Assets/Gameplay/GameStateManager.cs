@@ -79,18 +79,30 @@ public class GameStateManager : MonoBehaviour
                     yield return new WaitForSeconds(0.15f);
                 }
 
-                // Check if any building saved
-                var undamaged = buildings.GetUndamaged();
-                if (undamaged.Count > 0)
-                {
-                    // Add points per saved building
-                    foreach (var b in undamaged)
-                    {
-                        b.Hide();
-                        score.Add(50);
-                        yield return new WaitForSeconds(0.4f);
-                    }
 
+                // Add points per saved building
+                var undamaged = buildings.GetUndamaged();
+                foreach (var b in undamaged)
+                {
+                    b.Hide();
+                    score.Add(50);
+                    yield return new WaitForSeconds(0.4f);
+                }
+
+                // Bonus city per every 10000 points
+                var canRebuild = score.Points > score.NextRebuildAt;
+                if (canRebuild)
+                {
+                    while (score.Points > score.NextRebuildAt)
+                        score.NextRebuildAt += 10000;
+                    
+                    if(buildings.RebuildOne())
+                        yield return new WaitForSeconds(1f);
+                }
+
+                // Check if any building survived
+                if (undamaged.Count > 0 || canRebuild)
+                {
                     towerStorage.RestoreAll();
                     launcher.RestoreCannon();
                     undamaged.ForEach(b => b.Show());
@@ -117,6 +129,7 @@ public class GameStateManager : MonoBehaviour
             case GameState.BeforeGame:
                 if (Input.GetMouseButtonDown(0))
                 {
+                    middleText.StopAllCoroutines();
                     CurrentState = GameState.BeforeLevel;
                 }
                 break;

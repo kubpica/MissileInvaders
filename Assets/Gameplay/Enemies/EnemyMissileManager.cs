@@ -40,15 +40,4 @@ public class EnemyMissileManager : MonoBehaviourSingleton<EnemyMissileManager>
     {
         pool.Release(missile);
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            for (int i = 0; i < 5; i++) 
-            {
-                Spawn(1);
-            }
-        }
-    }
 }

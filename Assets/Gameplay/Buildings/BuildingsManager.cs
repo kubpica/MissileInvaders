@@ -14,4 +14,18 @@ public class BuildingsManager : MonoBehaviour
         }
         return undamaged;
     }
+
+    public bool RebuildOne()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var b = transform.GetChild(i).GetComponent<Building>();
+            if (b.IsDestroyed)
+            {
+                b.Rebuild();
+                return true;
+            }
+        }
+        return false;
+    }
 }
