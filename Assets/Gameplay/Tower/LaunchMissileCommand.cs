@@ -75,14 +75,17 @@ public class LaunchMissileCommand : Command
 
     public override void Cancel()
     {
-        if (_isMissileFired)
+        if (_isMissileFired && _launcher.isActiveAndEnabled)
             return;
 
         if (_coroutine != null)
         {
             _launcher.StopCoroutine(_coroutine);
         }
-        _launcher.crosshairSpawner.Release(_crosshair);
+        if (!_isMissileFired) 
+        {
+            _launcher.crosshairSpawner.Release(_crosshair);
+        }
         _isFinished = true;
     }
 }

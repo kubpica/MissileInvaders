@@ -83,6 +83,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
 
     public void RestoreCannon()
     {
+        transform.localPosition = Vector3.zero;
         gameObject.SetActive(true);
     }
 
