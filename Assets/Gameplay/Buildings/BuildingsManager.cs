@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class BuildingsManager : MonoBehaviour
 {
+    public bool IsAnyUndamaged()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var b = transform.GetChild(i).GetComponent<Building>();
+            if (!b.IsDestroyed)
+                return true;
+        }
+        return false;
+    }
+
     public List<Building> GetUndamaged()
     {
         var undamaged = new List<Building>();

@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class LevelManager : MonoBehaviourExtended
 {
     [GlobalComponent] private EnemyMissileManager missiles;
+    [GlobalComponent] private GameStateManager gameState;
 
     public UnityEvent onLevelEnded;
 
@@ -45,7 +46,7 @@ public class LevelManager : MonoBehaviourExtended
     private IEnumerator run()
     {
         _isRunning = true;
-        while (_missilesToSpawn > 0)
+        while (_missilesToSpawn > 0 && gameState.IsAlive)
         {
             nextStage();
             var timeToNextStage = Random.Range(_minTimeBetweenStages, _maxTimeBetweenStages);
@@ -71,8 +72,16 @@ public class LevelManager : MonoBehaviourExtended
         IEnumerator waitForSecondsOrStageCleared(float time)
         {
             float timer = 0;
-            while (timer < time && missiles.SpawnedCount > 0)
+            while (timer < time)
             {
+                // If all enemy missiles destroyed speed up the next stage
+                if (missiles.SpawnedCount == 0)
+                {
+                    var timeLeft = time-timer;
+                    yield return new WaitForSeconds(Mathf.Min(1, timeLeft));
+                    yield break;
+                }
+
                 timer += Time.deltaTime;
                 yield return null;
             }

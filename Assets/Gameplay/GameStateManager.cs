@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameStateManager : MonoBehaviour
+public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
 {
     public TowerController controller;
     public MiddleTextManager middleText;
@@ -115,6 +115,8 @@ public class GameStateManager : MonoBehaviour
             }
         }
     }
+
+    public bool IsAlive => launcher.gameObject.activeSelf || buildings.IsAnyUndamaged();
 
     private void Start()
     {
