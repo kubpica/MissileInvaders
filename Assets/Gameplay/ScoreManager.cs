@@ -7,7 +7,12 @@ public class ScoreManager : MonoBehaviourSingleton<ScoreManager>
     public LevelManager levelManager;
 
     public int Points { get; private set; }
-    public int NextRebuildAt { get; set; } = 10000;
+    public int NextRebuildAt { get; set; }
+
+    public void Start()
+    {
+        NextRebuildAt = levelManager.PointsToBonusBuilding;
+    }
 
     public void Add(int points)
     {

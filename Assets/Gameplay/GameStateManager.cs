@@ -89,12 +89,12 @@ public class GameStateManager : MonoBehaviour
                     yield return new WaitForSeconds(0.4f);
                 }
 
-                // Bonus city per every 10000 points
+                // Check if a bonus building is available
                 var canRebuild = score.Points > score.NextRebuildAt;
                 if (canRebuild)
                 {
                     while (score.Points > score.NextRebuildAt)
-                        score.NextRebuildAt += 10000;
+                        score.NextRebuildAt += levelManager.PointsToBonusBuilding;
                     
                     if(buildings.RebuildOne())
                         yield return new WaitForSeconds(1f);

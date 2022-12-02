@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviourExtended
     public UnityEvent onLevelEnded;
 
     public int CurrentLevel { get; private set; }
+    public int PointsToBonusBuilding { get; private set; } = 10000;
 
     private bool _isRunning;
     private int _missilesToSpawn;
@@ -27,12 +28,16 @@ public class LevelManager : MonoBehaviourExtended
 
         CurrentLevel++;
         _missilesToSpawn = 8 + 2*CurrentLevel;
-        if (_missilesToSpawn > 1)
+        if (CurrentLevel > 1)
         {
             _minTimeBetweenStages = Mathf.Max(0.5f, _minTimeBetweenStages-0.5f);
             _maxTimeBetweenStages = Mathf.Max(3f, _maxTimeBetweenStages-0.5f);
             _minSpeed = Mathf.Min(1.5f, _minSpeed + 0.05f);
             _maxSpeed = Mathf.Min(3f, _maxSpeed + 0.1f);
+            if (CurrentLevel % 10 == 1)
+            {
+                PointsToBonusBuilding += 10000;
+            }
         }
         StartCoroutine(run());
     }

@@ -75,7 +75,7 @@ public class LaunchMissileCommand : Command
 
     public override void Cancel()
     {
-        if (_isMissileFired && _launcher.isActiveAndEnabled)
+        if (_isFinished || _isMissileFired && _launcher.isActiveAndEnabled)
             return;
 
         if (_coroutine != null)
