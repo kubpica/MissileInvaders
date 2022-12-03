@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class BackgroundColorManager : MonoBehaviour
 {
+    public Color CurrentColor 
+    {
+        get => Camera.main.backgroundColor;
+        set => Camera.main.backgroundColor = value;
+    }
+
     public void Colorize(Color color, float time)
     {
         StartCoroutine(colorize(color, time));
@@ -10,10 +16,9 @@ public class BackgroundColorManager : MonoBehaviour
 
     private IEnumerator colorize(Color color, float time)
     {
-        var camera = Camera.main;
-        var oldColor = camera.backgroundColor;
+        var oldColor = CurrentColor;
         yield return AnimUtils.ColorLerp
-            (c => camera.backgroundColor = c, oldColor, color, time);
+            (c => CurrentColor = c, oldColor, color, time);
     }
 
     public void GameOver()
@@ -27,5 +32,11 @@ public class BackgroundColorManager : MonoBehaviour
             yield return colorize(Color.red, 0.25f);
             yield return colorize(Color.black, 1f);
         }
+    }
+
+    public void ChangeHue(int change, float time)
+    {
+        StartCoroutine(AnimUtils.ColorHueChange
+            (c => CurrentColor = c, CurrentColor, change, time));
     }
 }

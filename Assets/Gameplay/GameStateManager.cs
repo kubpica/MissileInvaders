@@ -7,7 +7,8 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
     public TowerController controller;
     public MiddleTextManager middleText;
     public LevelManager levelManager;
-    public BackgroundColorManager backgroundColor;
+    public BackgroundColorManager background;
+    public Ground ground;
     public TowerStorage towerStorage;
     public MissileLauncher launcher;
     public BuildingsManager buildings;
@@ -58,15 +59,21 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                     StartCoroutine(endLevel());
                     break;
                 case GameState.GameOver:
-                    backgroundColor.GameOver();
-                    middleText.SetText("GAME OVER");
+                    background.GameOver();
+                    middleText.SetText("THE END");
                     middleText.Show();
                     break;
             }
 
             IEnumerator startLevel()
             {
-                yield return middleText.ShowAndHide($"Level {levelManager.CurrentLevel+1}", 1);
+                var lvl = levelManager.CurrentLevel + 1;
+                if (lvl > 1)
+                {
+                    background.ChangeHue(3 * _hueDirection, 3f);
+                    ground.ChangeHue(3 * _hueDirection, 3f);
+                }
+                yield return middleText.ShowAndHide($"Level {lvl}", 1);
                 CurrentState = GameState.Level;
             }
 
@@ -78,7 +85,6 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                     score.Add(5);
                     yield return new WaitForSeconds(0.15f);
                 }
-
 
                 // Add points per saved building
                 var undamaged = buildings.GetUndamaged();
@@ -118,10 +124,13 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
 
     public bool IsAlive => launcher.gameObject.activeSelf || buildings.IsAnyUndamaged();
 
+    private int _hueDirection;
+
     private void Start()
     {
         CurrentState = GameState.BeforeGame;
         levelManager.onLevelEnded.AddListener(() => CurrentState = GameState.LevelEnded);
+        _hueDirection = Random.value > 0.5f ? 1 : -1;
     }
 
     private void Update()
