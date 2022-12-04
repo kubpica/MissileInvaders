@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviourExtended
 {
     [GlobalComponent] private EnemyMissileManager missiles;
     [GlobalComponent] private GameStateManager gameState;
+    [GlobalComponent] private AudioManager sfx;
 
     public UnityEvent onLevelEnded;
 
@@ -37,7 +38,8 @@ public class LevelManager : MonoBehaviourExtended
             _maxSpeed = Mathf.Min(3f, _maxSpeed + 0.1f);
             if (CurrentLevel % 10 == 1)
             {
-                PointsToBonusBuilding += 10000;
+                sfx.Play("BonusInflation");
+                PointsToBonusBuilding *= 2;
             }
         }
         StartCoroutine(run());

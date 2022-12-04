@@ -13,6 +13,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
     public MissileLauncher launcher;
     public BuildingsManager buildings;
     public ScoreManager score;
+    [GlobalComponent] private AudioManager sfx;
 
     public enum GameState
     {
@@ -59,6 +60,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                     StartCoroutine(endLevel());
                     break;
                 case GameState.GameOver:
+                    sfx.Play("GameOver");
                     background.GameOver();
                     middleText.SetText("THE END");
                     middleText.Show();
@@ -67,18 +69,23 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
 
             IEnumerator startLevel()
             {
+                sfx.Play("StartLevel");
                 var lvl = levelManager.CurrentLevel + 1;
                 if (lvl > 1)
                 {
                     background.ChangeHue(3 * _hueDirection, 3f);
                     ground.ChangeHue(3 * _hueDirection, 3f);
                 }
-                yield return middleText.ShowAndHide($"Level {lvl}", 1);
+                yield return middleText.ShowAndHide($"Day {lvl}", 1);
                 CurrentState = GameState.Level;
             }
 
             IEnumerator endLevel()
             {
+                if (launcher.gameObject.activeSelf)
+                    sfx.PlayAtPoint("EndLevel", launcher.transform.position);
+                yield return new WaitForSeconds(2f);
+
                 while (towerStorage.ConsumeMissile())
                 {
                     // Add points per saved missile

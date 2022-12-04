@@ -7,6 +7,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
     public FriendlyMissile missilePrefab;
     public CrosshairSpawner crosshairSpawner;
     public TowerStorage storage;
+    private AudioManager sfx;
 
     public float rotationSpeed;
     public float knockbackDistance = 0.1f;
@@ -19,6 +20,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
     private void Start()
     {
         InitPool(missilePrefab);
+        sfx = AudioManager.Instance;
     }
 
     protected override void GetSetup(FriendlyMissile missile)
@@ -49,7 +51,11 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
     public void AddCommand(Vector3 destination)
     {
         if (!storage.ConsumeMissile())
+        {
+            sfx.PlayAtPoint("EmptyMagazine", destination);
             return;
+        }
+        sfx.PlayAtPoint("TargetSelected", destination);
 
         var crosshair = crosshairSpawner.Get();
         crosshair.transform.position = destination.Z(0);
@@ -60,6 +66,7 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
 
     public void DestroyCannon()
     {
+        sfx.Play("CannonDestroyed");
         if (storage.cannonMagazine.IsEmpty)
         {
             ExplosionsManager.Instance.Spawn(transform.position, 1, false);

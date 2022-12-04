@@ -19,9 +19,11 @@ public class LaunchMissileCommand : Command
 
     private Coroutine _coroutine;
     private bool _isMissileFired;
+    private AudioSource _rotateSound;
 
     public override void Execute()
     {
+        var sfx = AudioManager.Instance;
         _coroutine = _launcher.StartCoroutine(execute());
         IEnumerator execute()
         {
@@ -33,6 +35,7 @@ public class LaunchMissileCommand : Command
 
         IEnumerator rotate()
         {
+            _rotateSound = sfx.Play("RotateCannon", _launcher.gameObject);
             Vector2 startDir = _launcher.transform.up;
             Vector2 targetDir = _destination - (Vector2)_launcher.transform.position;
             // Missiles will fly along parabola so the cannon should not look directly at the target
@@ -45,10 +48,13 @@ public class LaunchMissileCommand : Command
             {
                 _launcher.transform.up = Vector2.Lerp(startDir, targetDir, f).normalized;
             }, time);
+            _rotateSound.Stop();
+            _rotateSound = null;
         }
 
         void fire()
         {
+            sfx.PlayAtPoint("CannonBlast", _launcher.transform.position);
             _launcher.Get().Fire(_destination, _launcher, _crosshair);
             _isMissileFired = true;
         }
@@ -85,6 +91,10 @@ public class LaunchMissileCommand : Command
         if (!_isMissileFired) 
         {
             _launcher.crosshairSpawner.Release(_crosshair);
+        }
+        if (_rotateSound != null)
+        {
+            _rotateSound.Stop();
         }
         _isFinished = true;
     }

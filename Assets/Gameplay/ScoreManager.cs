@@ -5,6 +5,7 @@ public class ScoreManager : MonoBehaviourSingleton<ScoreManager>
 {
     public TextMesh textMesh;
     public LevelManager levelManager;
+    [GlobalComponent] private AudioManager sfx;
 
     public int Points { get; private set; }
     public int NextRebuildAt { get; set; }
@@ -16,6 +17,7 @@ public class ScoreManager : MonoBehaviourSingleton<ScoreManager>
 
     public void Add(int points)
     {
+        sfx.PlayOneShot("Score", null, points/25f);
         Points += points * levelManager.CurrentLevel;
         textMesh.text = Points.ToString();
     }
