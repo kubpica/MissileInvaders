@@ -69,6 +69,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                     background.GameOver();
                     middleText.SetText("THE END");
                     middleText.Show();
+                    score.Confirm();
                     break;
             }
 
@@ -90,6 +91,10 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                 {
                     background.ChangeHue(3 * _hueDirection, 3f);
                     ground.ChangeHue(3 * _hueDirection, 3f);
+                }
+                else
+                {
+                    score.RefreshText();
                 }
                 yield return middleText.ShowAndHide($"Day {lvl}", 1);
                 CurrentState = GameState.Level;
