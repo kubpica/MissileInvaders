@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
 {
     public TowerController controller;
-    public MiddleTextManager middleText;
+    public TextDisplayManager middleText;
     public LevelManager levelManager;
     public BackgroundColorManager background;
     public Ground ground;
@@ -13,6 +13,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
     public MissileLauncher launcher;
     public BuildingsManager buildings;
     public ScoreManager score;
+    public Credits credits;
     [GlobalComponent] private AudioManager sfx;
 
     public enum GameState
@@ -33,6 +34,12 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
             // On state exit
             switch (_currentState)
             {
+                case GameState.BeforeGame:
+                    StopAllCoroutines();
+                    middleText.StopAllCoroutines();
+                    credits.StopAllCoroutines();
+                    credits.gameObject.SetActive(false);
+                    break;
                 case GameState.Level:
                     controller.enabled = false;
                     launcher.CancelCommands();
@@ -45,9 +52,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
             switch (value)
             {
                 case GameState.BeforeGame:
-                    controller.enabled = false;
-                    middleText.SetText("Click anywhere to start the game");
-                    middleText.Show();
+                    StartCoroutine(beforeGame());
                     break;
                 case GameState.BeforeLevel:
                     StartCoroutine(startLevel());
@@ -65,6 +70,16 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                     middleText.SetText("THE END");
                     middleText.Show();
                     break;
+            }
+
+            IEnumerator beforeGame()
+            {
+                controller.enabled = false;
+                credits.gameObject.SetActive(true);
+                credits.Play();
+                yield return middleText.ShowAndHide("Missile Invaders v1.1", 1);
+                middleText.SetText("Click anywhere to start the game");
+                middleText.Show();
             }
 
             IEnumerator startLevel()
@@ -147,7 +162,6 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
             case GameState.BeforeGame:
                 if (Input.GetMouseButtonDown(0))
                 {
-                    middleText.StopAllCoroutines();
                     CurrentState = GameState.BeforeLevel;
                 }
                 break;

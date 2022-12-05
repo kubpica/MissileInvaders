@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class MiddleTextManager : MonoBehaviour
+public class TextDisplayManager : MonoBehaviour
 {
     public TextMesh textMesh;
 

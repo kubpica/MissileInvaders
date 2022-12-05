@@ -10,6 +10,6 @@ Score - Ticking Clock 1 by Sonoptic (https://pixabay.com/sound-effects/ticking-c
 EndLevel - Toilet Flush by Eakoontz (https://pixabay.com/sound-effects/toilet-flush-100082/)
 BonusInflation - Rooster Crowing by LoafDV (https://pixabay.com/sound-effects/rooster-crowing-80258/)
 TargetSelected - CPS-E short click select 02 by SamuelFrancisJohnson (https://pixabay.com/sound-effects/computer-processing-sound-effects-short-click-select-02-122133/)
-EmptyMissile - click by 666HeroHero (https://pixabay.com/sound-effects/click-21156/)
+EmptyMagazine - click by 666HeroHero (https://pixabay.com/sound-effects/click-21156/)
 RotateCannon - Tank Turret Rotate by KieranKeegan (https://pixabay.com/sound-effects/tank-turret-rotate-14879/)
 MissileLoop - Rocket Loop by Mozfoo (https://pixabay.com/sound-effects/rocket-loop-99748/)
