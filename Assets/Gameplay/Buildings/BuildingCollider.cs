@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class BuildingCollider : MonoBehaviourExtended
+public class BuildingCollider : MonoBehaviour
 {
-    [ParentComponent] private Building building;
+    public Building building;
 
     private void OnTriggerEnter2D(Collider2D other)
     {

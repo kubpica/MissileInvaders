@@ -92,6 +92,9 @@ public class MissileLauncher : PoolerBase<FriendlyMissile>
     {
         transform.localPosition = Vector3.zero;
         gameObject.SetActive(true);
+        var audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+            audioSource.Stop();
     }
 
     public void CancelCommands()
