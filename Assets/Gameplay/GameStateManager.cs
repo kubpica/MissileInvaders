@@ -39,6 +39,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                     middleText.StopAllCoroutines();
                     credits.StopAllCoroutines();
                     credits.gameObject.SetActive(false);
+                    Screen.sleepTimeout = SleepTimeout.NeverSleep;
                     break;
                 case GameState.Level:
                     controller.enabled = false;
@@ -65,6 +66,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
                     StartCoroutine(endLevel());
                     break;
                 case GameState.GameOver:
+                    Screen.sleepTimeout = SleepTimeout.SystemSetting;
                     sfx.Play("GameOver");
                     background.GameOver();
                     middleText.SetText("THE END");
@@ -75,6 +77,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
 
             IEnumerator beforeGame()
             {
+                Screen.sleepTimeout = SleepTimeout.SystemSetting;
                 controller.enabled = false;
                 credits.gameObject.SetActive(true);
                 credits.Play();
