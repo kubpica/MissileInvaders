@@ -10,9 +10,11 @@ public abstract class EnemyMissile : MonoBehaviour
     private float _speed;
     private bool _isFired;
     private bool _isExploding;
+    private AudioSource _sound;
 
     public void Fire(Vector2 targetPosition, float speed)
     {
+        _sound = AudioManager.Instance.Play("MissileLoop", gameObject, false);
         _direction = (targetPosition - (Vector2)transform.position).normalized;
         transform.up = _direction;
 
@@ -26,6 +28,7 @@ public abstract class EnemyMissile : MonoBehaviour
         if (_isExploding)
             return;
         _isExploding = true;
+        _sound.Stop();
 
         // Animate break
         var anim = AnimUtils.Instance;
@@ -53,7 +56,7 @@ public abstract class EnemyMissile : MonoBehaviour
         p += _direction * _speed * Time.deltaTime;
         transform.position = p;
 
-        // Hit gound
+        // Hit ground
         if (p.y < -0.3f)
             Explode(0.5f, false);
     }

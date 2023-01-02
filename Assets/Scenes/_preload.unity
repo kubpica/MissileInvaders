@@ -182,7 +182,142 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: 0}
-  sounds: []
+  sounds:
+  - name: MissileBlast
+    clip: {fileID: 8300000, guid: 3b06a48d9d38883418621d6d753a0ff5, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Explosion
+    clip: {fileID: 8300000, guid: ed889f1696c9a9142ae6e9407e84a1a9, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: BuildingDestroyed
+    clip: {fileID: 8300000, guid: 7e76649b0cc88f3458a2bc30384f17ab, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: CannonDestroyed
+    clip: {fileID: 8300000, guid: a5fe29b5ab2131148b08686ed8cae598, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: GameOver
+    clip: {fileID: 8300000, guid: 0c99c8e0d96898849ba48400127169bc, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    startTime: 4
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: CannonBlast
+    clip: {fileID: 8300000, guid: 91c112bea66935d41b2fe0f0a42696a1, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Rebuild
+    clip: {fileID: 8300000, guid: 9c6edd8dc76726142a86360b2e740748, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: StartLevel
+    clip: {fileID: 8300000, guid: 9c08478db2765184db307563b1c98cce, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Score
+    clip: {fileID: 8300000, guid: 92757ae99189f454495a0e5b462d9ccf, type: 3}
+    volume: 0.5
+    pitch: 1
+    spatialBlend: 0
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: EndLevel
+    clip: {fileID: 8300000, guid: 882188b7c6a162c42a198a0452acc4c4, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: BonusInflation
+    clip: {fileID: 8300000, guid: cbd38f0755b9b7f4e8aa6f09034f82b2, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: TargetSelected
+    clip: {fileID: 8300000, guid: e99c9bd941f31a24597dd5039698b749, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0.5
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: EmptyMagazine
+    clip: {fileID: 8300000, guid: 61a7e2bd5412bd849bddafc228cefeee, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0.5
+    startTime: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: RotateCannon
+    clip: {fileID: 8300000, guid: 503906240b97edb4780fb407bd753df7, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    startTime: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: MissileLoop
+    clip: {fileID: 8300000, guid: e0d8b6c0225607f458bc80712882f3e6, type: 3}
+    volume: 0.025
+    pitch: 1
+    spatialBlend: 1
+    startTime: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
   volume: 2.5
   isMuted: 0
 --- !u!114 &1123453525

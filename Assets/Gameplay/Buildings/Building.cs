@@ -28,6 +28,8 @@ public class Building : MonoBehaviour
 
     public void Explode()
     {
+        AudioManager.Instance.PlayAtPoint("BuildingDestroyed", transform.position);
+
         // Animate break
         var anim = AnimUtils.Instance;
         anim.CrumbleTexture(fullSpriteObject, 8, false);
@@ -44,6 +46,7 @@ public class Building : MonoBehaviour
         StartCoroutine(rebuild());
         IEnumerator rebuild()
         {
+            AudioManager.Instance.PlayAtPoint("Rebuild", transform.position);
             IsDestroyed = false;
             var sr = fullSpriteObject.GetComponent<SpriteRenderer>();
             sr.color = Color.white.A(0);
@@ -51,6 +54,7 @@ public class Building : MonoBehaviour
             var score = ScoreManager.Instance;
             score.Colorize(new Color(1, 0.87451f, 0), 0.5f);
             yield return AnimUtils.Animate(f => sr.color = sr.color.A(Mathf.Lerp(0, 1, f)), 0.5f);
+            yield return new WaitForSeconds(0.5f);
             score.Colorize(Color.white, 0.5f);
         }
     }

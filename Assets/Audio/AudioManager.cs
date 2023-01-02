@@ -30,12 +30,16 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 			}
 		}
 
-		s.source = go.AddComponent<AudioSource>();
-		s.source.clip = s.clip;
-		s.source.loop = s.loop;
-		s.source.spatialBlend = s.spatialBlend;
+		s.source = go.GetComponent<AudioSource>();
+		if (s.source == null || s.source.clip != s.clip)
+		{
+			s.source = go.AddComponent<AudioSource>();
+			s.source.clip = s.clip;
+			s.source.loop = s.loop;
+			s.source.spatialBlend = s.spatialBlend;
 
-		s.source.outputAudioMixerGroup = mixerGroup;
+			s.source.outputAudioMixerGroup = mixerGroup;
+		}
 	}
 
 	private Sound getSound(string sound, GameObject sourceGO, bool destroyOldSource = false)
@@ -53,18 +57,16 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 		return s;
 	}
 
-	public void Play(string sound, GameObject sourceGO = null)
+	public AudioSource Play(string sound, GameObject sourceGO = null, bool destroyOldSource = true)
 	{
-		if (isMuted)
-			return;
-
-		var s = getSound(sound, sourceGO, true);
-		if (s != null)
+		var s = getSound(sound, sourceGO, destroyOldSource);
+		if (s != null && !isMuted)
 		{
 			s.source.volume = s.volume * volume;
 			s.source.Play();
 			s.source.time = s.startTime;
 		}
+		return s?.source;
 	}
 
 	public void PlayOneShot(string sound, GameObject sourceGO = null, float volumeScale = 1)

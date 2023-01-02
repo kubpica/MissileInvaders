@@ -8,6 +8,8 @@ public class FriendlyMissile : MonoBehaviour
         StartCoroutine(fire());
         IEnumerator fire()
         {
+            AudioManager.Instance.Play("MissileBlast", gameObject);
+
             // Fly forward
             var forwardFlyDistance = 0.64f;
             var forwardP = transform.position + launcher.transform.up * forwardFlyDistance;

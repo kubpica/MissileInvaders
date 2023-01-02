@@ -34,6 +34,10 @@ public class AnimUtils : MonoBehaviourSingleton<AnimUtils>
         float y2 = internalPoint.y;
         float x3 = endPoint.x;
         float y3 = endPoint.y;
+        if (Mathf.Abs(x2 - x1) < 0.01f)
+        {
+            x2 = 0.01f * Mathf.Sign(x2);
+        }
         if (Mathf.Abs(x3 - x2) < 0.01f)
         {
             x2 += 0.01f * Mathf.Sign(x2);
@@ -82,6 +86,19 @@ public class AnimUtils : MonoBehaviourSingleton<AnimUtils>
     public static IEnumerator ColorLerp(Action<Color> action, Color oldColor, Color newColor, float time)
     {
         yield return AnimUtils.Animate(t => action(Color.Lerp(oldColor, newColor, t)), time);
+    }
+
+    public static IEnumerator ColorHueChange(Action<Color> action, Color color, int change, float time)
+    {
+        Color.RGBToHSV(color, out float h, out float s, out float v);
+        float oldHue = h;
+        float newHue = h + change / 360f;
+        yield return AnimUtils.Animate
+            (f =>
+            {
+                var h = Mathf.Lerp(oldHue, newHue, f) % 1f;
+                action(Color.HSVToRGB(h, s, v));
+            }, time);
     }
 
     public static IEnumerator ColorizeSpriteRenderer(SpriteRenderer sr, Color newColor, float time)

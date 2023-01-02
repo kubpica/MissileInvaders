@@ -5,10 +5,13 @@ using UnityEngine.Events;
 public class LevelManager : MonoBehaviourExtended
 {
     [GlobalComponent] private EnemyMissileManager missiles;
+    [GlobalComponent] private GameStateManager gameState;
+    [GlobalComponent] private AudioManager sfx;
 
     public UnityEvent onLevelEnded;
 
     public int CurrentLevel { get; private set; }
+    public int PointsToBonusBuilding { get; private set; } = 10000;
 
     private bool _isRunning;
     private int _missilesToSpawn;
@@ -27,12 +30,17 @@ public class LevelManager : MonoBehaviourExtended
 
         CurrentLevel++;
         _missilesToSpawn = 8 + 2*CurrentLevel;
-        if (_missilesToSpawn > 1)
+        if (CurrentLevel > 1)
         {
             _minTimeBetweenStages = Mathf.Max(0.5f, _minTimeBetweenStages-0.5f);
             _maxTimeBetweenStages = Mathf.Max(3f, _maxTimeBetweenStages-0.5f);
             _minSpeed = Mathf.Min(1.5f, _minSpeed + 0.05f);
             _maxSpeed = Mathf.Min(3f, _maxSpeed + 0.1f);
+            if (CurrentLevel % 10 == 1)
+            {
+                sfx.Play("BonusInflation");
+                PointsToBonusBuilding *= 2;
+            }
         }
         StartCoroutine(run());
     }
@@ -40,7 +48,7 @@ public class LevelManager : MonoBehaviourExtended
     private IEnumerator run()
     {
         _isRunning = true;
-        while (_missilesToSpawn > 0)
+        while (_missilesToSpawn > 0 && gameState.IsAlive)
         {
             nextStage();
             var timeToNextStage = Random.Range(_minTimeBetweenStages, _maxTimeBetweenStages);
@@ -66,8 +74,16 @@ public class LevelManager : MonoBehaviourExtended
         IEnumerator waitForSecondsOrStageCleared(float time)
         {
             float timer = 0;
-            while (timer < time && missiles.SpawnedCount > 0)
+            while (timer < time)
             {
+                // If all enemy missiles destroyed speed up the next stage
+                if (missiles.SpawnedCount == 0)
+                {
+                    var timeLeft = time-timer;
+                    yield return new WaitForSeconds(Mathf.Min(1, timeLeft));
+                    yield break;
+                }
+
                 timer += Time.deltaTime;
                 yield return null;
             }
