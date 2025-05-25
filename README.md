@@ -1,5 +1,5 @@
 # Missile Invaders
-Missile Command clone made in Unity. 
+Missile Command clone made in Unity. I made it as a recruitment task and then they ghosted me - 0 feedback xD
 
 **Play:** <br />
 Play in browser: https://kubpica.itch.io/missileinvaders <br />
